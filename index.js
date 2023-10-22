@@ -1,6 +1,7 @@
 const inquirer = require('inquirer');
-const fs = require('fs');
+const fs = require('fs/promises');
 const Triangle = require('./lib/triangle');
+const SVG = require('./svg');
 
 
 
@@ -8,7 +9,7 @@ const Triangle = require('./lib/triangle');
 const questions = [
     {
       type: 'input',
-      message: 'Please enter up to three characters.',
+      message: 'Please enter text for the logo, up to three characters.',
       name: 'characters',
     },
     {
@@ -17,37 +18,19 @@ const questions = [
       name: 'textcolor',
       choices: ['blue', 'green', 'purple', 'yellow', 'red', 'orange']
     },
-    // {
-    //   type: 'input',
-    //   message: 'What are the steps required to install your project? Provide a step-by-step description of how to get the development environment running.',
-    //   name: 'installation',
-    // },
-    // {
-    //   type: 'input',
-    //   message: 'Provide instructions and examples for use. Include screenshots as needed. To add a screenshot, create an `assets/images` folder in your repository and upload your screenshot to it. Then, using the relative filepath, add it to your README using the following syntax: ```md ![alt text](assets/images/screenshot.png)',
-    //   name: 'usage',
-    // },
-    // {
-    //   type: 'input',
-    //   message: 'What is your GitHub user name?',
-    //   name: 'github',
-    // },
-    // {
-    //   type: 'input',
-    //   message: 'What is your email address?',
-    //   name: 'email',
-    // },
-    // {
-    //   type: 'input',
-    //   message: 'What information does the user require to contribute?',
-    //   name: 'contributions',
-    // },
-    // {
-    //   type: 'list',
-    //   message: 'What license did you use?',
-    //   name: 'license',
-    //   choices: ['MIT', 'none']
-    // },
+    {
+      type: 'list',
+      message: 'What shape would you like?',
+      name: 'logoshape',
+      choices: ['circle', 'square', 'triangle']
+    },
+    {
+      type: 'list',
+      message: 'Choose your shape color.',
+      name: 'shapecolor',
+      choices: ['blue', 'green', 'purple', 'yellow', 'red', 'orange']
+    },
+  
 ];
 
 
@@ -57,11 +40,19 @@ function init() {
  
 inquirer
   .prompt(questions)
-  .then(({characters, textcolor}) => {
-//   writeToFile('logo.svg', data);
-    let myTriangle = new Triangle(characters, textcolor);
-    console.log(myTriangle);
-    
+  .then(({characters, textcolor, logoshape, shapecolor}) => {
+
+    let myShape
+    if (logoshape === 'triangle') {
+        myShape = new Triangle();
+        myShape.setColor(shapecolor);
+    }
+    let mySVG = new SVG();
+    mySVG.setText(characters, textcolor)
+    mySVG.setShape(myShape)
+    console.log(myShape);
+    return fs.writeFile("logo.svg", mySVG.render())
+    //   writeToFile('logo.svg', data);
   })
 
 
@@ -70,3 +61,4 @@ inquirer
 
 init();
 
+//write tests for setText and Redner (svg file)

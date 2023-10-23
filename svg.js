@@ -1,8 +1,6 @@
 
 class SVG {
     constructor() {
-        // this.characters = characters;
-        // this.characterColors = characterColors;
         this.text = "";
         this.shape = "";
     }
@@ -19,7 +17,7 @@ class SVG {
         return `<svg width="350" height="250" version="1.1" xmlns="http://www.w3.org/2000/svg">${this.shape}${this.text}</svg>`
     }
 
-}
+};
 
 
 module.exports = SVG;

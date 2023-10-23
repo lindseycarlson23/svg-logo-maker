@@ -1,6 +1,8 @@
 const inquirer = require('inquirer');
 const fs = require('fs/promises');
 const Triangle = require('./lib/triangle');
+const Circle = require('./lib/circle');
+const Square = require('./lib/square');
 const SVG = require('./svg');
 
 
@@ -42,23 +44,39 @@ inquirer
   .prompt(questions)
   .then(({characters, textcolor, logoshape, shapecolor}) => {
 
-    let myShape
-    if (logoshape === 'triangle') {
-        myShape = new Triangle();
-        myShape.setColor(shapecolor);
+    let myShape=null;
+    switch(logoshape) {
+        case 'triangle': {
+            myShape = new Triangle();
+            myShape.setColor(shapecolor);
+          };
+          break;
+          case 'circle': {
+            myShape = new Circle();
+            myShape.setColor(shapecolor);
+          };
+          break;
+          case 'square': {
+            myShape = new Square();
+            myShape.setColor(shapecolor);
+          };
+          break;
     }
+    // if (logoshape === 'triangle') {
+    //     myShape = new Triangle();
+    //     myShape.setColor(shapecolor);
+    // }
     let mySVG = new SVG();
     mySVG.setText(characters, textcolor)
     mySVG.setShape(myShape)
     console.log(myShape);
     return fs.writeFile("logo.svg", mySVG.render())
-    //   writeToFile('logo.svg', data);
+    
   })
 
 
-}
+};
 // Function call to initialize app
 
 init();
 
-//write tests for setText and Redner (svg file)

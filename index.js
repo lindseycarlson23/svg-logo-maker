@@ -6,8 +6,6 @@ const Square = require('./lib/square');
 const SVG = require('./svg');
 
 
-
-// TODO: Create an array of questions for user input
 const questions = [
     {
       type: 'input',
@@ -38,7 +36,6 @@ const questions = [
 
 
 function init() {
-  //Inquirer Prompt(insert questions here)
  
 inquirer
   .prompt(questions)
@@ -62,10 +59,7 @@ inquirer
           };
           break;
     }
-    // if (logoshape === 'triangle') {
-    //     myShape = new Triangle();
-    //     myShape.setColor(shapecolor);
-    // }
+  
     let mySVG = new SVG();
     mySVG.setText(characters, textcolor)
     mySVG.setShape(myShape)
@@ -76,7 +70,6 @@ inquirer
 
 
 };
-// Function call to initialize app
 
 init();
 
